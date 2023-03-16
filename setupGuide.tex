@@ -52,7 +52,7 @@ Now we can create our container. The docker container will inherit from a prebui
 To create and run the container, type \code{docker run -p 8888:8888 \\ ghcr.io/jorgensd/dolfinx-tutorial:v0.5.1} in the command line. This should launch a JupyterLab session. You can access the JupyterLab by copying the bottom URL in the command line and pasting it into your browser. Alternatively, you can go to \url{http:localhost:8888/lab} and copy the token from the console. (The token is the long string after ``token='' in the url). \\ You may see a file called \code{requirements.txt}. This can be removed. To check everything has worked correctly, you can open the terminal and run \code{python3}. If this works, check dolfinx is installed by running \code{import dolfinx}. If there are no errors congratulations! You are now ready to begin using FEniCSx.
 
 \subsection{Future use}
-To stop running the container, the easiest way is to open Docker Desktop. Then go to containers and find the one which inherits from Jørgen's image. It will have a random name. Press the stop button located to the right of it's entry. In future, launching the container is as simple as pressing the play button where the stop button used to be.
+To stop running the container, the easiest way is to open Docker Desktop. Then go to containers and find the one which inherits from Jørgen's image. It will have a random name. Press the stop button located to the right of its entry. In future, launching the container is as simple as pressing the play button where the stop button used to be.
 
 %-------------------------Bibliography---------------------&
 \pagebreak
