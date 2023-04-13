@@ -1,0 +1,3 @@
+- Update images to be shown using HTML/CSS instead of markdown tables.
+
+- Remove references to standard basis when actually talking about the monomial basis.
