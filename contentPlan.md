@@ -1,34 +1,31 @@
 # Content Plan
 
-This is my current plan for the content of the Jupyter notebooks. This is subject to change, and the specifics are yet to be worked out, but it is important for me to have at least a vague outline to work from.
-
 ### Notebook 1. Mathematical Review
 
-- Reviewing general vector spaces.
-- Reviewing general vector calculus and differential equations.
-- Reviewing numerical computation concepts - matrix solvers, differential equations solvers, etc.
-- Recalling the inner product.
-- Recalling interpolation and how to perform it.
+- Vector spaces, linear independence, and basis.
+- Vector calculus: Fields, gradient, divergence, curl and flux.
+- Multi-dimensional integrals.
+- Divergence theorem and Green's identities.
 
-### Notebook 2. New Mathematical Concepts
+### Notebook 2. Introduction to the Finite Element Method
 
-- Defining $L^2$-spaces and the $L^2$-norm.
-- Defining piecewise polynomial spaces and meshes.
-- Defining PDEs in variational form using the Poisson equation as an example.
-- Derivation of a linear system from the weak form.
+- Space of piecewise continuous linear polynomials.
+- Deriving variational formulations of PDEs.
+- Constructing a system of equations from a variational formulation.
+- Types of boundary conditions.
+- FEM advantages and disadvantages.
+- Time-dependent PDEs.
+- Interpolation and $L^2$-Projection.
 
-### Notebook 3. Using FENICSx to Solve the Poisson Equation
+### Notebook 3. Implementing the Finite Element Method in Python with FEniCSx
 
-- Setting up DOLFINx on Windows using WSL2, Ubuntu and Docker.
-- Overviewing the steps one needs to take to solve the a problem using DOLFINx. Includes setting up the problem's function spaces, generating a mesh, setting the linear and bilinear terms, solving, visualizing with pyvista.
-- Exploring different types of mesh generation.
-- Running code in parallel to speed up computation.
-
-### Chapter 4. Explore Other PDE Problems and their FEM Solvers
-
-- Solving for complex valued functions such as the Helmholtz Equation
-- Introducing time dependent problems and solving them using a finite difference scheme
-
-
+- Overview of FEniCSx.
+- Constructing BVPs in FEniCSx by generating meshes and defining mathematical objects.
+- Solving BVPs in FEniCSx.
+- Solving / definition parameters.
+- Visualiation, through colour plots, 3d plots and 2d "slices" through matplotlib and pyvista.
+- Constructing finite difference approximations for time-dependent PDEs in FEniCSx.
+- Solving IVBPs.
+- Visualising IVBPs through animation.
 
 
