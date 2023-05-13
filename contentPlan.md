@@ -1,4 +1,4 @@
-# Content Plan
+# Content
 
 ### Notebook 1. Mathematical Review
 
