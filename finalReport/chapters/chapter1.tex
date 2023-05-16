@@ -7,7 +7,7 @@
 % Sections and sub-sections can be declared using \section and \subsection.
 % There is also a \subsubsection, but consider carefully if you really need
 % so many layers of section structure.
-\section{Introduction}
+\section{Introduction} \label{section:introduction}
 
 %<A brief introduction suitable for a non-specialist, {\em i.e.} without using technical terms or jargon, as far as possible. This may be similar/the same as that in the 'Outline and Plan' document. The remainder of this chapter will normally cover everything to be assessed under the `Background Research` criterion in the mark scheme.>
 
@@ -32,9 +32,9 @@ This finite element method has its origins in a numerical algorithm called the R
 
 \pagebreak
 
-\section{The Finite Element Method} \label{section:FEM}
+\section{The Finite Element Method} \label{section:fem}
 
-\subsection{How the Finite Element Method Works} \label{subsection:howFEMworks}
+\subsection{How the Finite Element Method Works} \label{subsection:how-fem-works}
 
 As previously mentioned, FEM is a numerical method for solving differential equations. Most often, it is applied to partial differential equations. The general form of a PDE is shown in Equation \ref{eq:1}. Here, the variables are denoted $t, x_1, \cdots, x_n$, of which there are $n+1$. The order of the equation is the order of the highest derivative of $u$, denoted $m$. $u$ is the unknown function that being solved for. Note that $t$ may not always be present here.
 \begin{align}\label{eq:1}
@@ -79,7 +79,7 @@ This trick allows us to remove any parts of our integration that include $v$ on 
 &a(u_h,v) = L(v) \quad \forall v \in V_{h,0} \label{eq:3}
 \end{align}
 
-To solve this problem, our domain $\Omega$ must be split into discrete segments, called a mesh. In one dimension, this is amounts to splitting the number line into sub-intervals, in two dimensions, the plane is split into cells, or finite elements. These cells are primitive shapes like rectangles or triangles and depending on the domain, either it can be simpler to use one or the other. The points where these cells meet each other are called nodes.
+To solve this problem, our domain $\Omega$ must be split into discrete segments, called a mesh. In one dimension, this is amounts to splitting the number line into sub-intervals, in two dimensions, the plane is split into cells, or finite elements. These cells are primitive shapes like rectangles or triangles and depending on the domain, it can be simpler to use one or the other. The points where these cells meet each other are called nodes.
 
 Now to solve, techniques from linear algebra are used. A basis of $V_h$ and $V_{h,0}$ must be constructed to rewrite $u$ and $v$ as a linear combination of basis functions. The one used in the finite element method is called the nodal basis, because the coefficients of a linear combination of each of these basis vectors are equal to the function at the nodes of the mesh. The usefulness of this, is that any function can be defined using only these nodal values, meaning if they can be obtained, the approximate solution can be found.
 
@@ -111,29 +111,29 @@ In Bengzon and Larson's textbook on the finite element method\cite{bengzon-larso
 \Vert u - u_h \Vert_{L^2(\Omega)} \leq Ch^2\Vert D^2 u \Vert_{L^2(\Omega)} \label{eq:4}
 \end{align}
 
-Where $C$ is a constant, $D^2u$ is the second order total derivative of $u$ and $h$ is defined to be the longest edge of any cell in the mesh, which is a way of measuring the mesh size. It is clear from \ref{eq:4} that as $h \rightarrow 0$, the error also tends to $0$, which means the finite element converges as the size of the cells in the mesh decreases.
+Where $C$ is a constant, $D^2u$ is the second order total derivative of $u$ and $h$ is defined to be the longest edge of any cell in the mesh, which is a way of measuring the mesh size. It is clear from \ref{eq:4} that as $h \rightarrow 0$, the error also tends to $0$, which means the finite element method converges as the size of the cells in the mesh decreases.
 
-\subsection{Overview of Tools} \label{subsection:overviewOfTools}
+\subsection{Overview of Tools} \label{subsection:overview-of-tools}
 
-Finite element analysis is ubiquitous throughout science because it is so powerful. However, performing the steps outlined in Section \ref{subsection:howFEMworks} can be quite involved, and if one doesn't have a strong background in mathematics and computer programming, an implementation would be difficult to produce. Therefore, many tools have been developed to allow scientists of all fields to use FEM. These range from software libraries and packages, to bespoke programs designed for the most specific PDEs. Each have their benefits and advantages, which will be reviewed now.
+Finite element analysis is ubiquitous throughout science because it is so powerful. However, performing the steps outlined in Section \ref{subsection:how-fem-works} can be quite involved, and if one doesn't have a strong background in mathematics and computer programming, an implementation would be difficult to produce. Therefore, many tools have been developed to allow scientists of all fields to use FEM. These range from software libraries and packages, to bespoke programs designed for the most specific PDEs. Each have their benefits and advantages, which will be reviewed now.
 
-\textbf{PolyFEM} \cite{polyfem} is a simple and lightweight implementation of FEM. It is written in C++, like many of libraries used today, but also has a Python binding. The power of PolyFEM is in its simplicity. It abstracts the method of solving completely, and all that is required of the user is the definition of a mesh and the parameters of the problem. Creating a mesh is straightforward, one can use an array manipulation library like Numpy for simple domains, and for more complicated domains a mesh generation package like Gmsh can be used. In addition to these options, custom-made meshes can be created using external software and stored in \verb|.OBJ| files, which PolyFEM also accepts. An example of the parameters required can be seen in Appendix C, Listing \ref{appendix:polyfem-json-structure}. The trade-off here is of course versatility. PolyFEM only currently supports 10 PDEs, and within that customisation is limited.
+\textbf{PolyFEM} \cite{polyfem} is a simple and lightweight implementation of FEM. It is written in C++, like many of libraries used today, but also has a Python binding. The power of PolyFEM is in its simplicity. It abstracts the method of solving completely, and all that is required of the user is the definition of a mesh and the parameters of the problem. Creating a mesh is straightforward, one can use an array manipulation library like Numpy for simple domains, and for more complicated domains a mesh generation package like Gmsh can be used. In addition to these options, custom-made meshes can be created using external software and stored in \verb|.OBJ| files, which PolyFEM also accepts. The trade-off here is of course versatility. PolyFEM only currently supports 10 PDEs, and within that customisation is limited.
 
-\textbf{Deal.II} \cite{deal-ii} is a C++ library for solving partial differential equations using the finite element method. It is one of the most modern implementations and includes many advanced methods. It is used widely in academic and commercial applications due to its versatility. While this is one of the strongest FEM libraries in the public domain, its drawback lies in the complexity of use. Their extensive documentation is well written, but extremely long due to the number of available features. This module is recommended for more advanced users. The advantage to having a FEM module written in a C-like language is that C allows programmers to have very strict control over their memory management. This allows for greater efficiency when performing calculations, leading to an overall increase in speed for the generation of meshes, and solving of systems of equations, for instance.
+\textbf{Deal.II} \cite{deal-ii} is a C++ library for solving partial differential equations using the finite element method. It is one of the most modern implementations and includes many advanced methods. It is used widely in academic and commercial applications due to its versatility. While this is one of the strongest FEM libraries in the public domain, its drawback lies in the complexity of use. Their extensive documentation is well written, but extremely long due to the number of available features. This module is recommended for more advanced users. The advantage to having a FEM module written in a C-like language is that C allows programmers to have very strict control over their memory management. This allows for greater efficiency when performing calculations, leading to an overall increase in speed for the generation of meshes, and the solving of systems of equations, for instance.
 
-\textbf{FreeFEM} \cite{freefem} is another open-source library used for the development of finite element codes. It is based in C++, and contains pre-built solvers for many popular PDEs. It interfaces with some of the most popular mesh generation software, visualisation programs, and linear algebra  including Gmsh, Mumps, PETSc and ParaView. FreeFEM also comes with it's own scripting language FreeFEM++, which is used for the creation of more specific finite element solvers. Once, again the documentation is extensive, but rigorous and contains many tutorials to help users get started.
+\textbf{FreeFEM} \cite{freefem} is another open-source library used for the development of finite element codes. It is based in C++, and contains pre-built solvers for many popular PDEs. It interfaces with some of the most popular mesh generation softwares, visualisation programs, and linear algebra libraries including Gmsh, Mumps, PETSc and ParaView. FreeFEM also comes with it's own scripting language FreeFEM++, which is used for the creation of more specific finite element solvers. Once, again the documentation is extensive, but rigorous and contains many tutorials to help users get started.
 
-\textbf{FEniCSx} \cite{fenics} is another open-source computing platform written in C++, with a Python binding. The mission statement explains it aim to enable users to ``quickly translate scientific models into efficient finite element code''. FEniCSx is written in a way that keeps code very close to its mathematical notation, meaning it is the perfect tool for users with a mathematical background. It is a package composed of four main modules. \texttt{DOLFINx} is is the main computational backend of FEniCSx. It is the backbone that connects all of the other libraries together and contains the majority of classes and functions. It contains interfaces for input/output, mesh generation, equation solvers, manipulation of finite element function spaces, and much more. \texttt{UFL} stand for Unified Form Language and is the language used to express variational forms of PDEs. Its syntax is designed to be as close to writing the actual mathematics as possible. \texttt{FFCx} is the FEniCSx Form Compiler. It takes a variational form in UFL and compiles it into a system of equations. \texttt{Basix} deals with the finite elements themselves. It can generate the basis functions of some space and their derivatives, as well as perform interpolation, projection and more.
+\textbf{FEniCSx} \cite{fenics} is another open-source computing platform written in C++, with a Python binding. The mission statement explains it aims to enable users to ``quickly translate scientific models into efficient finite element code''. FEniCSx is written in a way that keeps code very close to its mathematical notation, meaning it is the perfect tool for users with a mathematical background. It is a package composed of four main modules. \texttt{DOLFINx} is is the main computational backend of FEniCSx. It is the backbone that connects all of the other libraries together and contains the majority of classes and functions. It contains interfaces for input/output, mesh generation, equation solvers, manipulation of finite element function spaces, and much more. \texttt{UFL} stand for Unified Form Language and is the language used to express variational forms of PDEs. Its syntax is designed to be as close to writing the actual mathematics as possible. \texttt{FFCx} is the FEniCSx Form Compiler. It takes variational forms in UFL and compiles them into systems of equations. \texttt{Basix} deals with the finite elements themselves. It can generate the basis functions of spaces and their derivatives, as well as perform interpolation, projection and more.
 
 \pagebreak
 
 Aside from the libraries listed above, there are many bespoke programs available as well. Specifically, there are programs made with a specific PDE in mind that they allow the user to solve. This may be for fluid dynamics, elastic deformation, geophysics, or any number of others. The benefit to these, is that it allows a user to solve problems by only inputting parameters to their equation, or specific solving options. Visualisation often comes built into these programs through a GUI. They significantly lower the barrier to entry for finite element analysis, but their main problem is that they provide little to no variability in terms of the equations themselves. However, for specific practical purposes, and for known problems, they are excellent. Another drawback is that many of these programs are proprietary, and some provide a financial barrier to their use.
 
-\section{Overview of Literature Regarding Mathematical Education}
+\section{Overview of Literature Regarding Mathematical Education} \label{section:overview-of-literature}
 
-In order to write the learning resources effectively, a concrete understanding of the Finite Element Method is clearly needed. However an equally important part of writing a good learning resource involves having a good knowledge of education and the utilisation of an approach that puts the student experience first. We will now discuss the different approaches in education and ultimately, how they apply to mathematical education.
+In order to write the learning resources effectively, a concrete understanding of the Finite Element Method is clearly needed. However an equally important part of writing a good learning resource involves having a good knowledge of educational practises and the utilisation of an approach that puts the student experience first. We will now discuss the different approaches in education and ultimately, how they apply to mathematical education.
 
-\subsection{Bloom's Taxonomy}
+\subsection{Bloom's Taxonomy} \label{subsection:blooms}
 
 %How to write a good textbook / learning resource - blooms taxonomy, learning objects
 
@@ -141,7 +141,7 @@ In 1956, a group of researchers from the United States published arguably one of
 
 \begin{figure}[h]
 \centering
-\includegraphics[scale=0.575]{blooms}
+\includegraphics[scale=0.575]{./images/misc/blooms}
 \caption{Comparison between Bloom's original Taxonomy and the revised version \cite{bloom-picture}} \label{fig:blooms}
 \end{figure}
 
@@ -161,7 +161,7 @@ The original classification can be seen on the left hand side of Figure \ref{fig
 
 This describes the full taxonomy when it was created. It can be clearly seen that each one flows into the next, but there is also some overlap between these levels. For instance, the skill of description could fall under knowledge or comprehension, since a student could remember a certain description which shows knowledge, but could also suggest understanding if it wasn't blindly quoted. This is why the taxonomy is not a strict rule-set for learning. Instead, it is a measurement of progress and any curriculum using it should be implemented with care, instead of blindly following the pyramid.
 
-\subsection{Revised Bloom's Taxonomy}
+\subsection{Revised Bloom's Taxonomy} \label{subsection:revised-blooms}
 
 Much later, in 2001, Lorin Anderson led a new team of educators to update the taxonomy, called the Revised Bloom's Taxonomy (RBT) \cite{revised-blooms-taxonomy}. The structure, and differences between the original taxonomy can be seen in Figure 1.1. They opted to simplify some of the language, breaking down one potential barrier to the taxonomy's use. They also opted to replace the abstract verbs with present tense versions of the same words. More importantly, it was decided that creation was a more complex skill than evaluation.
 
@@ -193,11 +193,11 @@ Meta-Cognitive & \cellcolor{Gray6} &\cellcolor{Gray5} &\cellcolor{Gray4} &\cellc
 
 Figure \ref{fig:brt} shows the taxonomy table, with the new knowledge dimension. The shading refers to the complexity of each skill, darker being more complex. The knowledge dimension refers to the \textit{type} of knowledge used at that level, while the cognitive process dimension refers to \textit{how} that knowledge should be used. For instance, for one to have mastered the apply column, they must be able to apply factual, conceptual, procedural, and meta-congitive knowledge. \textbf{Factual} knowledge refers to the most basic information a student must be familiar with. It includes simple definitions, terms and symbols. \textbf{Conceptual} knowledge is the kind of knowledge one gains by understanding relationships between definitions. A lot of mathematics lies here, laws and theorems are examples of this kind of knowledge, but scientific theories, and more advanced, composite definitions also belong here. \textbf{Procedural} knowledge refers to processes. This is the knowledge needed to perform algorithms and tasks. It also includes techniques, methods and the understanding of when such processes need to be performed. Finally, the most advanced type of knowledge is \textbf{meta-cognitive} knowledge. This refers to knowledge about one's own learning. It includes the understanding of a student's own strengths and weaknesses, how they learn best, and even how to teach others effectively. It also contains knowledge about knowledge itself, for instance the structure of material in a course or material that will appear on certain tests.
 
-Another problem Anderson and his team set out to solve the potential ambiguity within each of the definitions. They subdivided each item in the knowledge dimension into two or three ``sub-types'' and also divided each of the cognitive processes into categories, of which there were anywhere from two to seven. For instance, within analyse there are the categories of ``differentiating'', ``organising'', and ``attributing''. This would certainly help any potential educator planning to use the taxonomy table. Needless to say, it was a rigorous overhaul and one of many overhauls Bloom's taxonomy has received since its original publication.
+Another problem Anderson and his team set out to solve was the potential ambiguity within each of the definitions. They subdivided each item in the knowledge dimension into two or three ``sub-types'' and also divided each of the cognitive processes into categories, of which there were anywhere from two to seven. For instance, within analyse there are the categories of ``differentiating'', ``organising'', and ``attributing''. This would certainly help any potential educator planning to use the taxonomy table. Needless to say, it was a rigorous overhaul and one of many overhauls Bloom's taxonomy has received since its original publication.
 
-\section{Learning Resource Requirements}
+\section{Learning Resource Requirements} \label{section:learning-resource-requirements}
 
-With the aid of Bloom's taxonomy, and a few other sources it should be possible to outline the requirements of a good learning resource. These will be the guidelines will be attempted to be met, and will be evaluated against in the Results Section. The definition of learning resource used here is specifically an article, textbook, or tutorial used for self-teaching. Not included here are things like videos, or spoken word, which have their own additional criteria. See Section \ref{section:ideasForFutureWork} for more information on other possibilities that could be explored.
+With the aid of Bloom's taxonomy, and a few other sources it should be possible to outline the requirements of a good learning resource. These are the guidelines that will be attempted to be met, and will be evaluated against in the user testing. The definition of learning resource used here is specifically an article, textbook, or tutorial used for self-teaching. Not included here are things like videos, or spoken word, which have their own additional criteria. See Section \ref{section:ideas-for-future-work} for more information on other possibilities that could be explored.
 
 These are 9 aspects that contribute to the effectiveness of a learning resource under this definition:
 
@@ -220,7 +220,7 @@ These are 9 aspects that contribute to the effectiveness of a learning resource 
         \end{itemize}
     \item \textbf{Proof of usefulness}
         \begin{itemize}
-            \item The ultimate aim of a learning resource is for a student to take the knowledge they gain from it and gain a practical skill. Even some of the most pure mathematical fields have practical applications. Students want to know how the information presented actually links to real problems. \cite{times-higher-education}
+            \item The ultimate aim of a learning resource is for a student to take the knowledge they gain from it and hone a practical skill. Even some of the most pure mathematical fields have practical applications. Students want to know how the information presented actually links to real problems. \cite{times-higher-education}
         \end{itemize}
     \item \textbf{Well-tuned difficulty}
         \begin{itemize}
@@ -232,17 +232,17 @@ These are 9 aspects that contribute to the effectiveness of a learning resource 
         \end{itemize}
     \item \textbf{Clear objectives defined}
         \begin{itemize}
-            \item At the start of the resource, clear learning objectives should be set out. This would motivate the student to continue reading, since they will not only know what they will learn, but also how they will be able to apply it. Then, at the end, students will be able to reflect on these objectives and decide for themselves whether or not they have achieved them.
+            \item At the start of the resource, clear learning objectives should be set out. This should motivate the student to continue reading, since they will not only know what they will learn, but also how they will be able to apply it. Then, at the end, students will be able to reflect on these objectives and decide for themselves whether or not they have achieved them.
         \end{itemize}
 \end{itemize}
 
 %MEANS I NEED TO DEFINE EXACTLY WHAT MAKES A GOOD LEARNING RESOURCE, WHICH SHOULD HELP OUTLINE MY METHODS.
 
-\section{Analysis of Existing FEM Learning Resources}
+\section{Analysis of Existing FEM Learning Resources} \label{analysis-of-existing-resources}
 
 With a more precisely defined criteria of what makes a good learning resource, it is now possible to analyse some of the most popular learning resources in finite element analysis.
 
-\subsection{Bengzon and Larson's Finite Element Textbook}
+\subsection{Bengzon and Larson's Finite Element Textbook} \label{subsection:bengzon-larson}
 
 We start with a textbook written by Mats. G. Larson and Fredrik Bengzon called The Finite Element Method: Theory, Implementation, and Applications \cite{bengzon-larson-fem}. This textbook is meant to introduce students to the finite element method by explaining the necessary mathematics, while also showing how to implement it in MATLAB. 
 
@@ -250,11 +250,11 @@ The textbook seems to meet most, if not all criteria listed above. It has decent
 
 At the end of each chapter a selection of exercises are presented. These are very well written, allowing the reader to consolidate information gained in the previous chapter. Bloom's Taxonomy seems to be mostly satisfied, there are questions relating to simple recollection and use of definitions (recall), and to applying methods learned to specific problems (comprehension and application). In questions that require the reader to construct a proof, analysis is met because, one must bring together several concepts and ideas to construct an argument. Synthesis could also be considered to be part of proof-writing, although the definition might be being stretched here. Evaluation however, is not so well explored. This could be one criticism against the book. Bengzon and Larson could have asked students which approach might be better for certain problems for instance, which would force the reader to weigh up the advantages and disadvantages of certain methods.
 
-\subsection{J. S. Dokken's FEniCSx Tutorial}
+\subsection{J. S. Dokken's FEniCSx Tutorial} \label{subsection:dokken-fenics}
 
 The next FEM learning resource is a tutorial specifically written as a guide for FEniCSx, the previously mentioned FEM computing platform. It is written and maintained by Jørgen S. Dokken, a researcher in the field and member of the FEniCSx Steering Council. The tutorial was adapted from Langtangen and Logg's book \textit{Solving PDEs in Python: The FEniCS Tutorial I} \cite{langtangen-logg}, which was written for the previous version of FEniCSx.
 
-Rather than as a guide to the finite element method, this tutorial serves more as a guide on how to use FEniCSx. Having said that, mathematical explanations are provided, they are just simply not as detailed as Bengzon-Larson for instance. The tutorial is written using in a Notebook format, which is spoken about in Section \ref{section:jupyter}, but means that code snippets feature heavily. Dokken uses a service called Binder to host the notebooks remotely, which allows users to run the code in their own browsers without downloading any dependencies. This removes a large barrier to the use of FEniCSx, and lets users tinker and get familiar with the library without having to download the libraries on their local machine. If one does not wish to use Binder, they are free to view the static version as well.
+Rather than as a guide to the finite element method, this tutorial serves more as a guide on how to use FEniCSx. Having said that, mathematical explanations are provided, they are just simply not as detailed as Bengzon-Larson for instance. The tutorial is written using in a Notebook format, which is spoken about in Section \ref{subsection:jupyter-lab}, but means that code snippets feature heavily. Dokken uses a service called Binder to host the notebooks remotely, which allows users to run the code in their own browsers without downloading any dependencies. This removes a large barrier to the use of FEniCSx, and lets users tinker and get familiar with the library without having to download the libraries on their local machine. If one does not wish to use Binder, they are free to view the static version as well.
 
 The notebook is very readable, jargon is kept to a minimum, although there is still quite a lot due to the subject matter. Many terms are hyperlinked to external sites where readers can find more detailed information. Visuals are used vary sparingly, which is one downside of the tutorial. It could certainly be improved with a few diagrams or illustrations. The pacing is excellent, and each chapter uses information from the previous to expand the reader's knowledge in an engaging way. Sometimes the pace can be slightly too fast, and important concepts don't have enough time spent on them, but in these cases external resources are often linked to, and Dokken recommends that readers unfamiliar with FEM read a textbook on the subject.
 
